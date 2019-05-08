@@ -1,0 +1,19 @@
+﻿  commands.c
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(81): warning C4013: 'toupper' undefined; assuming extern returning int
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(393): warning C4020: 'calculateCentroids': too many actual parameters
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(450): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(443): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(444): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(445): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(446): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(447): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(455): warning C4101: 'stat': unreferenced local variable
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(480): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(670): warning C4244: 'function': conversion from 'int' to 'float', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(656): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(657): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(658): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(659): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(660): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\users\andre\desktop\projeto2fase\projeto2fase\commands.c(948): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Projeto2Fase.vcxproj -> C:\Users\andre\Desktop\Projeto2Fase\x64\Debug\Projeto2Fase.exe
