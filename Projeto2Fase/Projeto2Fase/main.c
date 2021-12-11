@@ -15,7 +15,7 @@
 
 /* definicao de prototipos de funcoes, definidas depois do main() */
 void printCommandsMenu();
-void stringToUpper(char * str);
+
 
 /*
 * Este e a estrutura responsavel pelo metodo main onde corre o programa em si. Mostra o menu de comandos que o utilizador pode efetuar, de seguida efetua os escolhidos

@@ -1,7 +1,7 @@
 /* MINI-PROJETO 2 ATAD 2018
 * Identificacao dos Alunos:
 *
-*      Numero: 170221006 | Nome: André dos Santos Martins Ribeiro
+*      Numero: 170221006 | Nome: Andrï¿½ dos Santos Martins Ribeiro
 *      Numero: 170221026 | Nome: Daniel Alexandre Lopes Alves
 *
 */
@@ -9,12 +9,15 @@
 /*Bibliotecas importadas*/
 #include <stdio.h>
 #include <stdlib.h>
-#include <String.h>
-#include <Math.h>
+#include <string.h>
+#include <math.h>
+#include <ctype.h>
 #include "commands.h"
 #include "statistics.h"
 #include "cluster.h"
 #include "float.h"
+#include <unistd.h>
+
 
 /* definicao de prototipos de funcoes*/
 void load(char *playerFile, char *statsFile, PtList list);
@@ -45,7 +48,7 @@ void addListToMap(PtMap map, PtList list, char type[20], Statistics media);
 PtClusterList kmeans(PtList list, int k, int maxIteration, float deltaError, float *iterationError);
 void calculateClosestsClusters(PtList list, PtClusterList clusters, int k);
 float calculateDistance(Cluster cluster, Statistics stat);
-void calculateCentroids(PtClusterList clusters, int k); 
+void calculateCentroids(PtClusterList clusters, int k, Statistics *pStatistics);
 float calculateError(PtClusterList clusters, int k);
 
 
@@ -390,7 +393,7 @@ PtClusterList kmeans(PtList list, int k, int maxIteration, float deltaError, flo
 		//Atribuir 
 		calculateClosestsClusters(list, clusters, k);
 		//Reclacular os centroides
-		calculateCentroids(clusters, k, &stat);
+        calculateCentroids(clusters, k, &stat);
 		//Calcular o erro
 		*iterationError = calculateError(clusters, k);
 
@@ -451,7 +454,7 @@ float calculateDistance(Cluster cluster, Statistics stat) {
 }
 
 /*Procedimento que centra os centroids*/
-void calculateCentroids(PtClusterList clusters, int k) {
+void calculateCentroids(PtClusterList clusters, int k, Statistics *pStatistics) {
 	Statistics stat;
 	Statistics avgStats;
 
@@ -491,9 +494,11 @@ void commandLoad(PtList list) {
 
 
 		printf("Introduza o ficheiro dos jogadores: "); //introducao dos nomes dos ficheiros
-		gets_s(commandP, sizeof(commandP));
+		fgets(commandP, sizeof(commandP), stdin);
+        commandP[strcspn(commandP, "\r\n")] = 0;
 		printf("Introduza o ficheiro dos jogos: ");
-		gets_s(commandS, sizeof(commandS));
+		fgets(commandS, sizeof(commandS), stdin);
+        commandS[strcspn(commandS, "\r\n")] = 0;
 		printf("\n");
 
 		if (strstr(commandP, "players") != 0 && strstr(commandS, "games") != 0) { //caso os nomes dos ficheiros tenham a haver com players ou games
@@ -594,19 +599,17 @@ void commandKMeans(PtList list) {
 
 /*Procedimento que grava na lista os jogadores com as estatisticas somadas*/
 void load(char *playerFile, char *statsFile, PtList list) {
-	FILE *fd;
-	FILE *fd2;
-	int err = fopen_s(&fd, statsFile, "r");
-	int err2 = fopen_s(&fd2, playerFile, "r");
+    char cwd[PATH_MAX];
+    getcwd(cwd, sizeof(cwd));
 
-	if (err != 0) {
-		printf("Nao foi possivel abrir o ficheiro %s ...\n", statsFile);
-		return;
-	}
-	if (err2 != 0) {
-		printf("Nao foi possivel abrir o ficheiro %s ...\n", playerFile);
-		return;
-	}
+    char playerCWD[PATH_MAX];
+    char statsCWD[PATH_MAX];
+
+    sprintf(playerCWD, "%s\\%s", cwd, playerFile);
+    sprintf(statsCWD, "%s\\%s", cwd, statsFile);
+
+    FILE *fd = fopen(statsCWD, "r");
+    FILE *fd2 = fopen(playerCWD, "r");
 
 	char nextline[1024];
 
@@ -614,6 +617,7 @@ void load(char *playerFile, char *statsFile, PtList list) {
 	int countGames = 0;
 
 	while (fgets(nextline, sizeof(nextline), fd2)) { //comeco de criacao dos jogadores
+        nextline[strcspn(nextline, "\r\n")] = 0;
 		if (strlen(nextline) < 1)
 			continue;
 
@@ -646,6 +650,7 @@ void load(char *playerFile, char *statsFile, PtList list) {
 	fclose(fd2);
 
 	while (fgets(nextline, sizeof(nextline), fd)) { //comeco de criacao das estatisticas
+        nextline[strcspn(nextline, "\r\n")] = 0;
 		if (strlen(nextline) < 1)
 			continue;
 
@@ -729,7 +734,8 @@ void sort(PtList list) {
 		printf("Data - para a ordenacao pela Data de nascimento\n");
 		printf("Jogos - para a ordenacao pelos numeros de jogos jogados\n"); //display das opcoes para o utilizador
 
-		gets_s(option, sizeof(option));
+		fgets(option, sizeof(option),stdin);
+        option[strcspn(option, "\r\n")] = 0;
 
 
 		for (int i = 0; i < size - 1; i++) {
@@ -776,7 +782,8 @@ void sort(PtList list) {
 		if (changed) //caso exista uma troca, fazemos print da nova lista
 			show(clone);
 		else { //caso nao exista, uma mensagem de erro e mostrada
-			printf("Input invalido. Por favor insira Nome, Jogos ou Data.\n");
+
+			printf("Input invalido. Por favor insira Nome, Jogos ou Data. Escreveu: %s\n", option);
 		}
 	}
 	else {
@@ -895,7 +902,8 @@ void checkType(PtList list) {
 	mapSize(map, &size);
 	do { //enquanto o utilizador nao escrever um numero negativo, estamos neste loop
 		printf("Introduza uma chave(ID de jogador) para saber informacoes sobre ele ------ Introduza um valor negativo para sair\n");
-		gets_s(toInteger, sizeof(toInteger));
+		fgets(toInteger, sizeof(toInteger), stdin);
+        toInteger[strcspn(toInteger, "\r\n")] = 0;
 		intTemp = atoi(toInteger);
 
 		if((mapContains(map, intTemp) == 0) && intTemp > 0) { // verificao se o mapa contem a chave
@@ -938,13 +946,16 @@ void cluster(PtList list){
 
 
 	printf("Quantos cluster quer usar? ");
-	gets_s(command, sizeof(command));
+	fgets(command, sizeof(command), stdin);
+    command[strcspn(command, "\r\n")] = 0;
 	k = atoi(command);
 	printf("Quantas iteracoes quer efetuar ");
-	gets_s(command, sizeof(command));
+	fgets(command, sizeof(command), stdin);
+    command[strcspn(command, "\r\n")] = 0;
 	maxIteration = atoi(command);
 	printf("Qual a varicao minima do erro entre iteracoes ");
-	gets_s(command, sizeof(command));
+	fgets(command, sizeof(command), stdin);
+    command[strcspn(command, "\r\n")] = 0;
 	deltaError = atoi(command);
 	
 	float iterationError;

@@ -8,6 +8,7 @@
 
 /*Bibliotecas importadas*/
 #include <stdlib.h>
+#include <stdio.h>
 #include "statistics.h"
 
 /*Funcao que devolve uma nova estatistica criada com os jogos a 0*/
